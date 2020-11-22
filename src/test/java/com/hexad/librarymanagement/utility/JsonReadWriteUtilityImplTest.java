@@ -1,4 +1,4 @@
-package com.hexad.librarymanagement.service;
+package com.hexad.librarymanagement.utility;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hexad.librarymanagement.domain.Book;
@@ -16,27 +16,27 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @RunWith(SpringRunner.class)
-public class ReadJsonServiceImplTest {
+public class JsonReadWriteUtilityImplTest {
 
     @Mock
     private ObjectMapper objectMapper;
 
-    private ReadJsonServiceImpl readJsonService;
+    private JsonReadWriteUtilityImpl readJsonService;
     private final Book[] catalogue = new Book[1];
     private final List<BookDTO> borrowedBooks = new ArrayList<>();
     private final User[] users = new User[1];
 
     @Before
     public void setUp() throws IOException {
-        readJsonService = new ReadJsonServiceImpl(objectMapper);
-        Book book = new Book(123, "Test Name", "Test Author", 4, 3);
-        BookDTO bookDTO = new BookDTO(123, "Test Name");
+        readJsonService = new JsonReadWriteUtilityImpl(objectMapper);
+        Book book = new Book("123", "Test Name", "Test Author", 4, 3);
+        BookDTO bookDTO = new BookDTO("123", "Test Name");
         catalogue[0] = book;
         borrowedBooks.add(bookDTO);
-        User user = new User(123, "Test Name", borrowedBooks);
+        User user = new User("123", "Test Name", borrowedBooks);
         users[0] = user;
     }
 

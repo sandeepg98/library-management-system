@@ -9,6 +9,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class BookDTO {
 
-    private int bookId;         //unique key for each book
+    private String bookId;         //unique key for each book
     private String bookTitle;
 }

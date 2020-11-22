@@ -7,11 +7,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Book {
-
+public class UserDTO {
+    private String userId;         //unique key for each user
     private String bookId;         //unique key for each book
-    private String bookTitle;
-    private String author;
-    private int totalCopies;
-    private int availableCopies;
 }
