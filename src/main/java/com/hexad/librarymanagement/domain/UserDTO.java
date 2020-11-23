@@ -9,5 +9,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserDTO {
     private String userId;         //unique key for each user
-    private String bookId;         //unique key for each book
+    private String[] bookIds;      //array of unique keys for each book
 }

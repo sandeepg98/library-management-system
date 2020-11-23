@@ -51,7 +51,8 @@ public class BookBorrowServiceImplTest {
     public void setUp(){
         jsonReadWriteUtility = new JsonReadWriteUtilityImpl(objectMapper);
         bookBorrowService = new BookBorrowServiceImpl(jsonReadWriteUtility, objectArrayToMapUtility);
-        userDTO = new UserDTO("001", "12345");
+        String[] bookIds = {"12345"};
+        userDTO = new UserDTO("001", bookIds);
         bookDTO = new BookDTO("12345", "A Brief History of Time");
         catalogue[0] = new Book("32445", "The Da Vinci Code", "Dan Brown", 4,3);
         catalogue[1] = new Book("12345", "A Brief History of Time", "Stephen Hawking", 3,2);
