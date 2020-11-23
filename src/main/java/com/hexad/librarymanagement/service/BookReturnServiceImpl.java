@@ -28,21 +28,21 @@ public class BookReturnServiceImpl implements BookReturnService {
     ObjectArrayToMapUtilityImpl objectArrayToMapUtility;
 
     @Override
-    public String returnBook(UserDTO user) throws IOException {
+    public String returnBook(UserDTO userDTO) throws IOException {
 
         // Load the current details of all users & the current catalogue of books
         Book[] catalogue = jsonReadWriteUtility.readBooksCatalogue();
         User[] users = jsonReadWriteUtility.readUsers();
-        String userId = user.getUserId();
+        String userId = userDTO.getUserId();
 
-        for(String bookId : user.getBookIds()) {
+        // Convert the current Array of users & the current catalogue of books to Hash Maps
+        Map<String, User> userMap = objectArrayToMapUtility.getUserMap(users);
+        Map<String, Book> bookMap = objectArrayToMapUtility.getBookMap(catalogue);
+        User currentUser = userMap.get(userId);
+        List<BookDTO> borrowedBooks = currentUser.getBorrowedBooks();
+
+        for(String bookId : userDTO.getBookIds()) {
             try {
-                // Convert the current Array of users & the current catalogue of books to Hash Maps
-                Map<String, User> userMap = objectArrayToMapUtility.getUserMap(users);
-                Map<String, Book> bookMap = objectArrayToMapUtility.getBookMap(catalogue);
-                User currentUser = userMap.get(userId);
-                List<BookDTO> borrowedBooks = currentUser.getBorrowedBooks();
-
                 // Find the book that user wants to return
                 BookDTO returnedBook = null;
                 for (BookDTO book : borrowedBooks) {
