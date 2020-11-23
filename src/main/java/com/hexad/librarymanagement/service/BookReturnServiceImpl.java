@@ -4,6 +4,7 @@ import com.hexad.librarymanagement.domain.Book;
 import com.hexad.librarymanagement.domain.BookDTO;
 import com.hexad.librarymanagement.domain.User;
 import com.hexad.librarymanagement.domain.UserDTO;
+import com.hexad.librarymanagement.utility.Constants;
 import com.hexad.librarymanagement.utility.JsonReadWriteUtilityImpl;
 import com.hexad.librarymanagement.utility.ObjectArrayToMapUtilityImpl;
 import lombok.AllArgsConstructor;
@@ -27,7 +28,7 @@ public class BookReturnServiceImpl implements BookReturnService {
     ObjectArrayToMapUtilityImpl objectArrayToMapUtility;
 
     @Override
-    public User[] returnBook(UserDTO user) throws IOException {
+    public String returnBook(UserDTO user) throws IOException {
 
         // Load the current details of all users & the current catalogue of books
         Book[] catalogue = jsonReadWriteUtility.readBooksCatalogue();
@@ -48,19 +49,22 @@ public class BookReturnServiceImpl implements BookReturnService {
                     if (book.getBookId().equals(bookId))
                         returnedBook = book;
                 }
-                // Remove the returned book from user's bucket and update the base users.json file
-                currentUser.getBorrowedBooks().remove(returnedBook);
-                userMap.put(userId, currentUser);
-                jsonReadWriteUtility.writeUsers(userMap.values().toArray(new User[0]));
 
-                // Add the returned book to the available copies in the books catalogue and update the base catalogue.json file
-                bookMap.get(bookId).setAvailableCopies(bookMap.get(bookId).getAvailableCopies() + 1);
-                jsonReadWriteUtility.writeBookCatalogue(bookMap.values().toArray(new Book[0]));
+                if(returnedBook != null) {
+                    // Remove the returned book from user's bucket and update the base users.json file
+                    currentUser.getBorrowedBooks().remove(returnedBook);
+                    userMap.put(userId, currentUser);
+                    jsonReadWriteUtility.writeUsers(userMap.values().toArray(new User[0]));
+
+                    // Add the returned book to the available copies in the books catalogue and update the base catalogue.json file
+                    bookMap.get(bookId).setAvailableCopies(bookMap.get(bookId).getAvailableCopies() + 1);
+                    jsonReadWriteUtility.writeBookCatalogue(bookMap.values().toArray(new Book[0]));
+                }
             } catch (IOException e) {
-                log.error("Exception is" + e);
+                log.error("An Exception Occurred: " + e);
             }
         }
 
-        return jsonReadWriteUtility.readUsers();
+        return Constants.RETURN_SUCCESS_MSG;
     }
 }

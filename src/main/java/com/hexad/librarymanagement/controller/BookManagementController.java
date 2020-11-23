@@ -33,7 +33,7 @@ public class BookManagementController {
      * and the books they have currently with them.
      */
     @PostMapping("/returnBook")
-    public User[] returnBook(@RequestBody UserDTO userObject) throws IOException {
+    public String returnBook(@RequestBody UserDTO userObject) throws IOException {
         return bookReturnService.returnBook(userObject);
     }
 
@@ -46,7 +46,7 @@ public class BookManagementController {
      * and the books they have currently with them.
      */
     @PostMapping("/borrowBook")
-    public User[] borrowBook(@RequestBody UserDTO userObject) throws IOException {
+    public String borrowBook(@RequestBody UserDTO userObject) throws IOException {
         return bookBorrowService.borrowBook(userObject);
     }
 

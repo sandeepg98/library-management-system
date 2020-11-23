@@ -7,6 +7,7 @@ import com.hexad.librarymanagement.domain.User;
 import com.hexad.librarymanagement.domain.UserDTO;
 import com.hexad.librarymanagement.utility.JsonReadWriteUtilityImpl;
 import com.hexad.librarymanagement.utility.ObjectArrayToMapUtilityImpl;
+import com.hexad.librarymanagement.utility.TestConstants;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -40,8 +41,10 @@ public class BookBorrowServiceImplTest {
     private BookBorrowServiceImpl bookBorrowService;
 
     private final User[] users = new User[1];
-    private final Book[] catalogue = new Book[2];
-    private UserDTO userDTO;
+    private final Book[] catalogue = new Book[3];
+    private UserDTO userDTOSuccess;
+    private UserDTO userDTOFail1;
+    private UserDTO userDTOFail2;
     private BookDTO bookDTO;
     private final List<BookDTO> borrowedBooks = new ArrayList<>();
     Map<String, User> userMap = new HashMap<>();
@@ -51,13 +54,19 @@ public class BookBorrowServiceImplTest {
     public void setUp(){
         jsonReadWriteUtility = new JsonReadWriteUtilityImpl(objectMapper);
         bookBorrowService = new BookBorrowServiceImpl(jsonReadWriteUtility, objectArrayToMapUtility);
-        String[] bookIds = {"12345"};
-        userDTO = new UserDTO("001", bookIds);
-        bookDTO = new BookDTO("12345", "A Brief History of Time");
-        catalogue[0] = new Book("32445", "The Da Vinci Code", "Dan Brown", 4,3);
-        catalogue[1] = new Book("12345", "A Brief History of Time", "Stephen Hawking", 3,2);
+
+        catalogue[0] = new Book("1", "Book 1", "Author 1", 4,3);
+        catalogue[1] = new Book("2", "Book 2", "Author 2", 4,3);
+        catalogue[2] = new Book("3", "Book 3", "Author 3", 4,3);
+
+        bookDTO = new BookDTO("1", "Book 1");
         borrowedBooks.add(bookDTO);
         users[0] = new User("001", "Sandeep Grover", borrowedBooks);
+
+        userDTOSuccess = new UserDTO("001", new String[]{"2"});
+        userDTOFail1 = new UserDTO("001", new String[]{"1"});
+        userDTOFail2 = new UserDTO("001", new String[]{"2", "3"});
+
         for (User user : users) {
             userMap.put(user.getUserId(), user);
         }
@@ -67,14 +76,35 @@ public class BookBorrowServiceImplTest {
     }
 
     @Test
-    public void testBorrowBook() throws IOException {
+    public void testBorrowBookSuccess() throws IOException {
         Mockito.when(objectMapper.readValue(new File("catalogue.json"), Book[].class)).thenReturn(catalogue);
         Mockito.when(objectMapper.readValue(new File("users.json"), User[].class)).thenReturn(users);
         Mockito.when(jsonReadWriteUtility.readBooksCatalogue()).thenReturn(catalogue);
         Mockito.when(jsonReadWriteUtility.readUsers()).thenReturn(users);
         Mockito.when(objectArrayToMapUtility.getUserMap(users)).thenReturn(userMap);
         Mockito.when(objectArrayToMapUtility.getBookMap(catalogue)).thenReturn(bookMap);
-        User[] result = bookBorrowService.borrowBook(userDTO);
-        assertEquals(users[0].getUserName(), result[0].getUserName());
+        assertEquals(TestConstants.BORROW_SUCCESS_MSG, bookBorrowService.borrowBook(userDTOSuccess));
+    }
+
+    @Test
+    public void testBorrowBookFail_MoreCopyOfSameBook() throws IOException {
+        Mockito.when(objectMapper.readValue(new File("catalogue.json"), Book[].class)).thenReturn(catalogue);
+        Mockito.when(objectMapper.readValue(new File("users.json"), User[].class)).thenReturn(users);
+        Mockito.when(jsonReadWriteUtility.readBooksCatalogue()).thenReturn(catalogue);
+        Mockito.when(jsonReadWriteUtility.readUsers()).thenReturn(users);
+        Mockito.when(objectArrayToMapUtility.getUserMap(users)).thenReturn(userMap);
+        Mockito.when(objectArrayToMapUtility.getBookMap(catalogue)).thenReturn(bookMap);
+        assertEquals(TestConstants.BORROW_FAIL_MSG, bookBorrowService.borrowBook(userDTOFail1));
+    }
+
+    @Test
+    public void testBorrowBookFail_MoreThanTwoBooks() throws IOException {
+        Mockito.when(objectMapper.readValue(new File("catalogue.json"), Book[].class)).thenReturn(catalogue);
+        Mockito.when(objectMapper.readValue(new File("users.json"), User[].class)).thenReturn(users);
+        Mockito.when(jsonReadWriteUtility.readBooksCatalogue()).thenReturn(catalogue);
+        Mockito.when(jsonReadWriteUtility.readUsers()).thenReturn(users);
+        Mockito.when(objectArrayToMapUtility.getUserMap(users)).thenReturn(userMap);
+        Mockito.when(objectArrayToMapUtility.getBookMap(catalogue)).thenReturn(bookMap);
+        assertEquals(TestConstants.BORROW_FAIL_MSG, bookBorrowService.borrowBook(userDTOFail2));
     }
 }

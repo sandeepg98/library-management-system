@@ -6,5 +6,5 @@ import com.hexad.librarymanagement.domain.UserDTO;
 import java.io.IOException;
 
 public interface BookReturnService {
-    public User[] returnBook(UserDTO user) throws IOException;
+    public String returnBook(UserDTO user) throws IOException;
 }
