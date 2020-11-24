@@ -83,7 +83,7 @@ public class BookBorrowServiceImplTest {
         Mockito.when(jsonReadWriteUtility.readUsers()).thenReturn(users);
         Mockito.when(objectArrayToMapUtility.getUserMap(users)).thenReturn(userMap);
         Mockito.when(objectArrayToMapUtility.getBookMap(catalogue)).thenReturn(bookMap);
-        assertEquals(TestConstants.BORROW_SUCCESS_MSG, bookBorrowService.borrowBook(userDTOSuccess));
+        assertEquals(TestConstants.BORROW_SUCCESS_MSG, bookBorrowService.borrowBook(userDTOSuccess, 2));
     }
 
     @Test
@@ -94,7 +94,7 @@ public class BookBorrowServiceImplTest {
         Mockito.when(jsonReadWriteUtility.readUsers()).thenReturn(users);
         Mockito.when(objectArrayToMapUtility.getUserMap(users)).thenReturn(userMap);
         Mockito.when(objectArrayToMapUtility.getBookMap(catalogue)).thenReturn(bookMap);
-        assertEquals(TestConstants.BORROW_FAIL_MSG, bookBorrowService.borrowBook(userDTOFail1));
+        assertEquals(TestConstants.BORROW_FAIL_MSG, bookBorrowService.borrowBook(userDTOFail1, 2));
     }
 
     @Test
@@ -105,6 +105,6 @@ public class BookBorrowServiceImplTest {
         Mockito.when(jsonReadWriteUtility.readUsers()).thenReturn(users);
         Mockito.when(objectArrayToMapUtility.getUserMap(users)).thenReturn(userMap);
         Mockito.when(objectArrayToMapUtility.getBookMap(catalogue)).thenReturn(bookMap);
-        assertEquals(TestConstants.BORROW_FAIL_MSG, bookBorrowService.borrowBook(userDTOFail2));
+        assertEquals(TestConstants.BORROW_FAIL_MSG, bookBorrowService.borrowBook(userDTOFail2, 2));
     }
 }

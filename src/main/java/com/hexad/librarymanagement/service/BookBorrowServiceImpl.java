@@ -28,7 +28,7 @@ public class BookBorrowServiceImpl implements BookBorrowService {
     ObjectArrayToMapUtilityImpl objectArrayToMapUtility;
 
     @Override
-    public String borrowBook(UserDTO userDTO) throws IOException {
+    public String borrowBook(UserDTO userDTO, int maxBorrowCapacity) throws IOException {
 
         // Load the current details of all users & the current catalogue of books
         Book[] catalogue = jsonReadWriteUtility.readBooksCatalogue();
@@ -40,7 +40,7 @@ public class BookBorrowServiceImpl implements BookBorrowService {
         Map<String, Book> bookMap = objectArrayToMapUtility.getBookMap(catalogue);
         User currentUser = userMap.get(userId);
 
-        if(checkBorrowingCapacity(currentUser, userDTO)) {
+        if(checkBorrowingCapacity(currentUser, userDTO, maxBorrowCapacity)) {
             for (String bookId : userDTO.getBookIds()) {
                 try {
                     // Add the borrowed book to user's bucket and update the base users.json file
@@ -60,7 +60,7 @@ public class BookBorrowServiceImpl implements BookBorrowService {
         return Constants.BORROW_FAIL_MSG;
     }
 
-    private boolean checkBorrowingCapacity(User currentUser, UserDTO userDTO){
+    private boolean checkBorrowingCapacity(User currentUser, UserDTO userDTO, int maxBorrowCapacity){
         List<BookDTO> currentBorrowedBooksBooks = currentUser.getBorrowedBooks();
         String[] newlyBorrowedBook = userDTO.getBookIds();
 
@@ -68,7 +68,7 @@ public class BookBorrowServiceImpl implements BookBorrowService {
          * and if he is trying to borrow another copy of an
          * already borrowed book.
          */
-        if((currentBorrowedBooksBooks.size() + newlyBorrowedBook.length) <= 2){
+        if((currentBorrowedBooksBooks.size() + newlyBorrowedBook.length) <= maxBorrowCapacity){
             for(String newBookId : newlyBorrowedBook){
                 for (BookDTO currentBook : currentBorrowedBooksBooks){
                     if (currentBook.getBookId().equals(newBookId))

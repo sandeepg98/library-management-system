@@ -6,5 +6,5 @@ import com.hexad.librarymanagement.domain.UserDTO;
 import java.io.IOException;
 
 public interface BookBorrowService {
-    public String borrowBook(UserDTO user) throws IOException;
+    public String borrowBook(UserDTO user, int maxBorrowCapacity) throws IOException;
 }

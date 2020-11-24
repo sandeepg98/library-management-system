@@ -1,22 +1,33 @@
 package com.hexad.librarymanagement.controller;
 
 import com.hexad.librarymanagement.domain.Book;
+import com.hexad.librarymanagement.domain.BookDTO;
 import com.hexad.librarymanagement.domain.User;
 import com.hexad.librarymanagement.domain.UserDTO;
 import com.hexad.librarymanagement.service.BookBorrowServiceImpl;
 import com.hexad.librarymanagement.service.BookReturnServiceImpl;
 import com.hexad.librarymanagement.utility.JsonReadWriteUtilityImpl;
+import com.hexad.librarymanagement.utility.ObjectArrayToMapUtilityImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
+@CrossOrigin
 @RequestMapping(value = "/hexad")
 public class BookManagementController {
 
+    @Value("${maximum.borrowing.capacity}")
+    private int maxBorrowCapacity;
+
     @Autowired
     JsonReadWriteUtilityImpl jsonReadWriteUtility;
+
+    @Autowired
+    ObjectArrayToMapUtilityImpl objectArrayToMapUtility;
 
     @Autowired
     BookReturnServiceImpl bookReturnService;
@@ -47,7 +58,17 @@ public class BookManagementController {
      */
     @PostMapping("/borrowBook")
     public String borrowBook(@RequestBody UserDTO userObject) throws IOException {
-        return bookBorrowService.borrowBook(userObject);
+        return bookBorrowService.borrowBook(userObject, maxBorrowCapacity);
+    }
+
+    /*
+    * This method will return the list of books borrowed by
+    * a given user at that moment.
+    */
+    @GetMapping("/viewBorrowedBooks/{userId}")
+    public List<BookDTO> viewBorrowedBooks(@PathVariable String userId) throws IOException {
+        return objectArrayToMapUtility.getUserMap(jsonReadWriteUtility.readUsers())
+                .get(userId).getBorrowedBooks();
     }
 
     /*
