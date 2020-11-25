@@ -1,0 +1,25 @@
+<div class="booking-header">
+    WELCOME :: {{userName}}
+</div>
+
+<div class="outerDiv" *ngIf="result$ | async as results">
+    <div class="card" *ngFor="let result of results">
+        <mat-card class="book-card" *ngIf="result.availableCopies > 0">
+            <mat-card-header>
+                <mat-card-title>{{result.bookId}}. {{result.bookTitle}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-actions>
+                <button mat-button (click)="borrowBook(result.bookId)">BOOK</button>
+                <button mat-button (click)="unBook(result.bookId)">UN-BOOK</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+
+</div>
+<div>
+    <p>Books to be borrowed:</p>
+    <p>{{borrowedBooks|json}}</p>
+</div>
+<div>
+    <button (click)="getBorrowingStatus()">CONFIRM BORROWING</button>
+</div>

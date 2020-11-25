@@ -1,0 +1,21 @@
+.input-field{
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.book-return-screen{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 15%;
+}
+
+.library-card{
+    display: flex;
+    flex-direction: column;
+    max-width: 180px;
+    background-color: cadetblue;
+    margin-right: 50px;
+    align-items: center;
+}

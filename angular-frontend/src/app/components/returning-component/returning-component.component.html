@@ -1,0 +1,19 @@
+<div class="outerDiv" *ngIf="result$ | async as results">
+    <div class="card" *ngFor="let result of results">
+        <mat-card class="book-card">
+            <mat-card-header>
+                <mat-card-title>{{result.bookId}}. {{result.bookTitle}}</mat-card-title>
+            </mat-card-header>
+            <mat-card-actions>
+                <button mat-button (click)="returnBook(result.bookId)">RETURN</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>
+<div>
+    <p>Books to be returned:</p>
+    <p>{{returnedBooks|json}}</p>
+</div>
+<div>
+    <button mat-button (click)="confirmReturn()">CONFIRM</button>
+</div>

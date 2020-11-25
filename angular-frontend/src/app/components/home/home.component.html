@@ -1,0 +1,24 @@
+<div class="input-field">
+    ENTER YOUR USERID <input type="text" #box />
+    <button mat-button color="primary" (click)="setBookerName(box.value)">SUBMIT</button>
+</div>
+
+<div class="book-return-screen">
+    <mat-card class="library-card">
+        <mat-card-header>
+            <mat-card-title>BOOKING</mat-card-title>
+        </mat-card-header>
+        <mat-card-actions>
+            <button *ngIf="userName!=''" mat-button (click)="onClickBooking()">START BOOKING</button>
+        </mat-card-actions>
+    </mat-card>
+
+    <mat-card class="library-card">
+        <mat-card-header>
+            <mat-card-title>RETURN</mat-card-title>
+        </mat-card-header>
+        <mat-card-actions>
+            <button *ngIf="userName!=''" mat-button (click)="onClickReturning(box.value)">RETURN BOOK</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

@@ -1,0 +1,12 @@
+.card {
+    padding: 20px;
+    display: flex;
+    float: left;
+    justify-content: space-between;
+}
+.book-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: rgb(197, 233, 150);
+  }
