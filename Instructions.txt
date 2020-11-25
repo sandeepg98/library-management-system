@@ -28,4 +28,4 @@ There are 3 books in the library catalogue:
 #The Da Vinci Code (total copies: 4)
 #Ikigai (total copies: 1)
 
-To modify users/books catalogue, go to library-management-system\angular-frontend modify the users.json or catalogue.json accordingly.
+To modify users/books catalogue, go to library-management-system modify the users.json or catalogue.json accordingly.
