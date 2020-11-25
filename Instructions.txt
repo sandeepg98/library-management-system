@@ -1,0 +1,31 @@
+##########INSTRUCTIONS############
+
+Step 1. Run the Spring-Boot Backend
+
+Go to library-management-system folder and open command prompt and run following commands:
+1. mvn clean install
+2. mvn spring-boot:run
+
+
+
+Step 2. Run the Angular Frontend
+
+Go to library-management-system\angular-frontend folder and open command prompt and run following commands:
+1. ng build
+2. ng serve -o
+
+
+
+Step 3. Go to your browser and open : http://localhost:4200/home
+
+
+There are 2 existing users: 
+001, Sandeep Grover
+002, Sudip Rana
+
+There are 3 books in the library catalogue: 
+#A Brief History of Time (total copies: 3)
+#The Da Vinci Code (total copies: 4)
+#Ikigai (total copies: 1)
+
+To modify users/books catalogue, go to library-management-system\angular-frontend modify the users.json or catalogue.json accordingly.
